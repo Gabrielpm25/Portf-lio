@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    
+
+}
+
+.light-theme {
+    --bg: var(--green);
+    --fontColor: var(--black);
+    --btnBg: var(--black);
+    --btnFontColor: var (--white);
+}
+.dark-theme {
+    --bg: var(--black);
+    --fontColor: var(--green);
+    --btnBg: var(--white);
+    --btnFontColor: var (--black);
+    
+}
+
+body {
+    background: var(--bg);
+}
+
+header {
+    
+    background-color: #05429d;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+#btn{
+    margin-left: 85%;
+    
+}
+
+img.icons {
+    height: 30px;
+    width: 30px;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+section {
+
+    padding: 20px;
+    margin: 10%;
+    margin-left: 5%;
+    
+}
+.sobre_mim {
+    padding-left: 34%;
+
+}
+
+#project-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.project {
+    border: 1px solid #ccc;
+    margin: 10px;
+    padding: 10px;
+    width: 200px;
+}
+
+
+footer {
+    background-color: #05429d;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+

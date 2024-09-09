@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snake Game</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #0564fc;
+  }
+  canvas {
+    border: 10px solid #ddd;
+  }
+</style>
+</head>
+<body>
+<canvas id="gameCanvas" width= 400 height= 400></canvas>
+<script>
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+
+  const gridSize = 20;
+  let snake = [{ x: 5, y: 5 }];
+  let food = { x: 10, y: 10 };
+  let direction = "right";
+  let gameOver = false;
+
+  function drawSnakePart(part) {
+    ctx.fillStyle = "#00FF00";
+    ctx.fillRect(part.x * gridSize, part.y * gridSize, gridSize, gridSize);
+  }
+
+  function drawFood() {
+    ctx.fillStyle = "#FF0000";
+    ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+  }
+
+  function moveSnake() {
+    if (gameOver) return;
+
+    const newHead = { ...snake[0] };
+    if (direction === "right") newHead.x++;
+    if (direction === "left") newHead.x--;
+    if (direction === "up") newHead.y--;
+    if (direction === "down") newHead.y++;
+
+    // Check for self-collision
+    if (checkSelfCollision(newHead)) {
+      gameOver = true;
+      return;
+    }
+
+    // Check if the new head position is out of bounds
+    if (newHead.x < 0) newHead.x = canvas.width / gridSize - 1;
+    if (newHead.x >= canvas.width / gridSize) newHead.x = 0;
+    if (newHead.y < 0) newHead.y = canvas.height / gridSize - 1;
+    if (newHead.y >= canvas.height / gridSize) newHead.y = 0;
+
+    snake.unshift(newHead);
+
+    if (newHead.x === food.x && newHead.y === food.y) {
+      generateFood();
+    } else {
+      snake.pop();
+    }
+  }
+
+  function checkSelfCollision(head) {
+    return snake.some(part => part.x === head.x && part.y === head.y);
+  }
+
+  function generateFood() {
+    food = {
+      x: Math.floor(Math.random() * (canvas.width / gridSize)),
+      y: Math.floor(Math.random() * (canvas.height / gridSize)),
+    };
+  }
+
+  function gameLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    moveSnake();
+
+    snake.forEach(drawSnakePart);
+    drawFood();
+
+    if (gameOver) {
+      ctx.fillStyle = "#0a0402";
+      ctx.font = "20px Arial";
+      ctx.width = '20px'
+      ctx.fillText('Game Over! Press R para resetar.', 50, canvas.height / 2);
+    } else {
+      setTimeout(gameLoop, 100);
+    }
+  }
+
+  document.addEventListener("keydown", (event) => {
+    const key = event.key;
+    if (key === "ArrowUp" && direction !== "down") direction = "up";
+    if (key === "ArrowDown" && direction !== "up") direction = "down";
+    if (key === "ArrowLeft" && direction !== "right") direction = "left";
+    if (key === "ArrowRight" && direction !== "left") direction = "right";
+    if (key === "r" && gameOver) resetGame();
+  });
+
+  function resetGame() {
+    snake = [{ x: 5, y: 5 }];
+    direction = "right";
+    gameOver = false;
+    generateFood();
+    gameLoop();
+  }
+  canvas.addEventListener("touchstart", (event) => {
+    if (gameOver) resetGame();
+    const touchX = event.touches[0].clientX;
+    const touchY = event.touches[0].clientY;
+    const canvasRect = canvas.getBoundingClientRect();
+    const canvasX = touchX - canvasRect.left;
+    const canvasY = touchY - canvasRect.top;
+    const snakeHead = snake[0];
+    const dx = canvasX - snakeHead.x * gridSize;
+    const dy = canvasY - snakeHead.y * gridSize;
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+      direction = dx > 0 ? "right" : "left";
+    } else {
+      direction = dy > 0 ? "down" : "up";
+    }
+  });
+
+  generateFood();
+  gameLoop();
+</script>
+</body>
+</html>

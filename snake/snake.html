@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tetris Game</title>
+  <style>
+    /* Estilize o tabuleiro do jogo e as peças aqui */
+    body{
+    background-color: aqua;
+    }
+    canvas#tetrisCanvas{
+    background-color: black;
+    margin-top: 10px;
+    margin-left: 200px;
+    width: auto;
+    height: auto;
+
+    }
+
+  </style>
+</head>
+<body>
+  <canvas id="tetrisCanvas" width="300" height="600"></canvas>
+
+  <script>
+    const canvas = document.getElementById("tetrisCanvas");
+    const context = canvas.getContext("2d");
+
+    const ROWS = 20;
+    const COLUMNS = 10;
+    const BLOCK_SIZE = 30;
+
+    const board = Array.from({ length: ROWS }, () => Array(COLUMNS).fill(null));
+
+    // Função para desenhar o tabuleiro
+    function drawBoard() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Desenhe o tabuleiro e as peças
+    }
+
+    // Função para desenhar uma peça
+    function drawPiece(piece, x, y) {
+      // Desenhe a peça nas coordenadas fornecidas
+    }
+
+    // Função para mover a peça para baixo
+    function moveDown() {
+      // Mova a peça para baixo
+    }
+
+    // Função principal do jogo
+    function gameLoop() {
+      // Atualize o jogo e redesenhe
+      drawBoard();
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Inicie o jogo
+    gameLoop();
+  </script>
+</body>
+</html>

@@ -1,93 +1,237 @@
-body {
+body {  /*visual do corpo no modo claro*/
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-image:url('/imagem/fundo-claro.png');
+    background-position: center;
+   
+}
+body.dark-mode { /*visual do corpo no modo escuro*/
     
-
+    color: #ffffff;
+    background-image:url('/imagem/dark.gif');
+    background-position: center;
+    background-size: cover; /* Faz com que a imagem cubra toda a área do corpo */
+    background-repeat: no-repeat; /* Impede que a imagem se repita */
 }
 
-.light-theme {
-    --bg: var(--green);
-    --fontColor: var(--black);
-    --btnBg: var(--black);
-    --btnFontColor: var (--white);
-}
-.dark-theme {
-    --bg: var(--black);
-    --fontColor: var(--green);
-    --btnBg: var(--white);
-    --btnFontColor: var (--black);
-    
-}
-
-body {
-    background: var(--bg);
-}
-
-header {
-    
-    background-color: #05429d;
+header { /*visual do cabecalho no modo claro*/
+    background-color: #51e7fe;
     color: #fff;
-    padding: 10px 0;
+    padding: 0.1px;
     text-align: center;
+    height: 110px;
+    box-shadow: 1px 2px 15px 10px #51e7fe;
 }
-#btn{
-    margin-left: 85%;
-    
+body.dark-mode header{ /*visial do cabecalho no modo escuro*/
+    background-color: #36f111;
+    color: #111111;
+    box-shadow: 0.1px 3px 8px 10px #36f111;
 }
 
-img.icons {
+img.icons { /*icones, rede social*/
     height: 30px;
     width: 30px;
+    border-radius: 40%;
+    background: transparent;
+
 }
 
-nav ul {
+nav ul { /**/
     list-style-type: none;
     padding: 0;
+    
 }
 
 nav ul li {
     display: inline;
-    margin: 0 10px;
+    
 }
 
 nav ul li a {
     color: #fff;
     text-decoration: none;
+    margin: 3%;
 }
-
-section {
-
-    padding: 20px;
-    margin: 10%;
-    margin-left: 5%;
+body.dark-mode nav ul a{ 
+    color: #106317;
     
 }
-.sobre_mim {
-    padding-left: 34%;
 
+#toggle-theme { /*visual do botão no modo claro*/
+    background-color:#111111;
+    color: #36f111;
+    margin-left: 87%;
+    margin-right: 3px;
+    margin-top: 4px;
+    width: 60px;
+    text-align: center;
+    
+    
+    
+    
+    font-size: 10px;
+    border-radius: 0.5em;
+    
+    cursor: pointer;
+    border: 1px solid #e8e8e8;
+    transition: all 0.3s;
+    box-shadow: 3px 3px 12px #36f111, -3px -3px 12px #36f111;
+        
+    
 }
-
-#project-list {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.project {
-    border: 1px solid #ccc;
-    margin: 10px;
-    padding: 10px;
-    width: 200px;
-}
-
-
-footer {
-    background-color: #05429d;
+body.dark-mode #toggle-theme {  /*visual do botão no modo escuro*/
+    background-color: #51e7fe;
     color: #fff;
     text-align: center;
-    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #e8e8e8;
+    transition: all 0.3s;
+    box-shadow: 3px 3px 12px #51e7fe, -3px -3px 12px #51e7fe;
+}
+
+
+section { /*Todos os section no html*/
+
+    padding: 30px;
+    margin: 5%;
+    margin-left: 1%;
+    margin-right: 1%;
+    
+}
+
+.project {    /*Projetos ao todo*/
+    border: 1px solid #d4d4d4;
+    margin: 40px;
+    
+    padding-left: 75px;
+    padding-right: 75px;
+    
+    padding-bottom: 20px;
+    padding-top: 10px;
+    width: 70px;
+    height: 240px;
+    border-radius: 20px;
+    background: #e0e0e0;
+    background: linear-gradient(145deg, #cacaca, #f0f0f0);
+    box-shadow:  13px 13px 26px #1d1d1d, -10px -10px 20px #fffefe;
+    justify-content: center;  /*Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    text-align: center; /* Centraliza o texto dentro dos elementos de projeto */
+    display: grid ;             
+}
+.project-title {
+    width: 100%;
+    
+    
+}
+.project-description {
+    width: 100%;
+    
+}
+
+
+body.dark-mode .project {    /*Projetos ao todo*/
+    border: 1px solid #262626;
+    margin: 40px;
+    padding-left: 70px;
+    padding-right: 70px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    width: 70px;
+    height: 240px;
+    border-radius: 20px;
+    background: #1f1e1e;
+    background: linear-gradient(135deg, #1a1a1a, #4b4b4b);
+    box-shadow:  13px 13px 26px #313131,
+             -10px -10px 20px #000000;
+    /*display: flex;*/
+    justify-content: center;  /*Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    text-align: center; /* Centraliza o texto dentro dos elementos de projeto */
+    display:grid;                                       
+}         
+
+a.project-link {
+    color: #43a8eb; /* Cor azul para o link */
+    text-decoration: none; /* Remove o sublinhado do link */
+}
+
+a.project-link:hover {
+    color: #7803fd; /* Cor azul mais escura quando o mouse está sobre o link */
+}
+
+body.dark-mode a.project-link {  /*cor do link do projeto modo claro*/
+    color: #f5fafe;
+}
+
+body.dark-mode a.project-link:hover {   /*cor do link do projeto modo escuro*/
+    color: #fa0808;
+}
+
+#meu-email {
+    font-family: arial;
+    color: #26587a;
+}
+#meu-email:hover {
+    color: #7a3dc9;
+}
+
+#project-list { /*projetos individual*/
+    display: flex;
+    overflow:auto;
+    border-radius: 50px;
+    margin-left: 0px;
+    text-align: left;
+}
+
+#project-list::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: #CCCCCC;
+}
+#project-list::-webkit-scrollbar-button {
+    border: 0px #000000 dashed;
+    width: 0px;
+}
+#project-list::-webkit-scrollbar-track {
+    background: #CCCCCC;
+    border-radius: 50px;
+}
+#project-list::-webkit-scrollbar-track-piece {
+    background: #CCCCCC;
+}
+#project-list::-webkit-scrollbar-thumb {
+    background: #333333;
+    border-radius: 5px;
+}
+#project-list::-webkit-scrollbar-corner {
+    background: #FF0000;
+    border-radius: 10px;
+}
+
+
+footer {   /*Rodape modo claro
+    */
+    background-color: #51e7fe;
+    color: #fff;
+    text-align: center;
+    padding: 2px;
     position: fixed;
     bottom: 0;
+    height: 40px;
     width: 100%;
+    box-shadow: -3px -3px 15px 10px #51e7fe;
+}
+body.dark-mode footer {    /*modo escuro do rodape*/
+    background-color: #36f111; 
+    color: #111111;
+    text-align: center;
+    padding-top: 2px;
+    position: fixed;
+    bottom: 0;
+    height: 40px;
+    width: 100%;
+    box-shadow: -3px -3px 15px 8px #36f111;
 }
 

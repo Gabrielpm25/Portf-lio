@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snake Game</title>
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #222;
+  }
+  canvas {
+    border: 1px solid #ddd;
+  }
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+  }
+  .button-row {
+    display: flex;
+    margin-top: 1px;
+
+  }
+  .button {
+    height: 75px;
+    width: 75px;
+    right: 20px;
+    left: 20px;
+    margin-bottom: 5px;
+    margin: 20px;   
+    font-size: 100%;
+    background-color: #1123e9;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  #h1 {
+    color: #ddd;
+    margin-top: 10%;
+    height: auto;
+  }
+</style>
+</head>
+<body>
+<h1 id="h1">Snake Game</h1>
+<canvas id="gameCanvas" width="400" height="400"></canvas>
+<div class="button-container">
+  <div class="button-row">
+    <button class="button" id="upButton">Cima</button>
+  </div>
+  <div class="button-row">
+    <button class="button" id="leftButton">Esquerda</button>
+    <button class="button" id="rightButton">Direita</button>
+  </div>
+  <div class="button-row">
+    <button class="button" id="downButton">baixo</button>
+  </div>
+</div>
+<script>
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+
+  const gridSize = 20;
+  let snake = [{ x: 5, y: 5 }];
+  let food = { x: 10, y: 10 };
+  let direction = "right";
+  let gameOver = false;
+
+  // ... (rest of the code remains the same)
+  function drawSnakePart(part) {
+    ctx.fillStyle = "#00FF00";
+    ctx.fillRect(part.x * gridSize, part.y * gridSize, gridSize, gridSize);
+  }
+
+  function drawFood() {
+    ctx.fillStyle = "#FF0000";
+    ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+  }
+
+  function moveSnake() {
+    if (gameOver) return;
+
+    const newHead = { ...snake[0] };
+    if (direction === "right") newHead.x++;
+    if (direction === "left") newHead.x--;
+    if (direction === "up") newHead.y--;
+    if (direction === "down") newHead.y++;
+
+    // Check for self-collision
+    if (checkSelfCollision(newHead)) {
+      gameOver = true;
+      return;
+    }
+
+    // Check if the new head position is out of bounds
+    if (newHead.x < 0) newHead.x = canvas.width / gridSize - 1;
+    if (newHead.x >= canvas.width / gridSize) newHead.x = 0;
+    if (newHead.y < 0) newHead.y = canvas.height / gridSize - 1;
+    if (newHead.y >= canvas.height / gridSize) newHead.y = 0;
+
+    snake.unshift(newHead);
+
+    if (newHead.x === food.x && newHead.y === food.y) {
+      generateFood();
+    } else {
+      snake.pop();
+    }
+  }
+
+  function checkSelfCollision(head) {
+    return snake.some(part => part.x === head.x && part.y === head.y);
+  }
+
+  function generateFood() {
+    food = {
+      x: Math.floor(Math.random() * (canvas.width / gridSize)),
+      y: Math.floor(Math.random() * (canvas.height / gridSize)),
+    };
+  }
+
+  function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  moveSnake();
+
+  snake.forEach(drawSnakePart);
+  drawFood();
+
+  if (gameOver) {
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "20px Arial";
+    ctx.fillText("Game Over! Tap to restart.", 50, canvas.height / 2);
+  } else {
+    setTimeout(gameLoop, 200); // <-- Ajuste o valor para um tempo menor (por exemplo, 80)
+  }
+  }
+
+
+  function resetGame() {
+    snake = [{ x: 5, y: 5 }];
+    direction = "right";
+    gameOver = false;
+    generateFood();
+    gameLoop();
+  }
+
+  canvas.addEventListener("click", () => {
+    if (gameOver) resetGame();
+  });
+
+  canvas.addEventListener("touchstart", (event) => {
+    if (gameOver) resetGame();
+    const touchX = event.touches[0].clientX;
+    const touchY = event.touches[0].clientY;
+    const canvasRect = canvas.getBoundingClientRect();
+    const canvasX = touchX - canvasRect.left;
+    const canvasY = touchY - canvasRect.top;
+    const snakeHead = snake[0];
+    const dx = canvasX - snakeHead.x * gridSize;
+    const dy = canvasY - snakeHead.y * gridSize;
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+      direction = dx > 0 ? "right" : "left";
+    } else {
+      direction = dy > 0 ? "down" : "up";
+    }
+  });
+  //
+  document.getElementById("upButton").addEventListener("click", () => changeDirection("up"));
+  document.getElementById("leftButton").addEventListener("click", () => changeDirection("left"));
+  document.getElementById("rightButton").addEventListener("click", () => changeDirection("right"));
+  document.getElementById("downButton").addEventListener("click", () => changeDirection("down"));
+
+  function changeDirection(newDirection) {
+    if (!gameOver) {
+      if (newDirection === "up" && direction !== "down") direction = "up";
+      if (newDirection === "down" && direction !== "up") direction = "down";
+      if (newDirection === "left" && direction !== "right") direction = "left";
+      if (newDirection === "right" && direction !== "left") direction = "right";
+    }
+  }
+  generateFood();
+  gameLoop();
+  // ... (rest of the code remains the same)
+</script>
+</body>
+</html>
